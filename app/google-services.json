@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "786730775324",
+    "project_id": "proxima-97232",
+    "storage_bucket": "proxima-97232.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786730775324:android:445ef9b6b3c209669e40d9",
+        "android_client_info": {
+          "package_name": "com.example.proxima"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786730775324-ligthcbvvg7vklkfo7o22hkthjqh2uj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proxima",
+            "certificate_hash": "6bb3b3004427f95e360eae923ba7187bf8c1fb46"
+          }
+        },
+        {
+          "client_id": "786730775324-ide2m7s16cqkv3qo9gqqfruh3miklvpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqZaiwnv1CSt_YW3X4aK5ISvbs1Yw5yy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786730775324-ide2m7s16cqkv3qo9gqqfruh3miklvpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
