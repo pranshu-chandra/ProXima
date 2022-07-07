@@ -1,15 +1,21 @@
 buildscript {
     ext {
         compose_version = '1.1.0-beta01'
+        accompanist_version = '0.21.2-beta'
+        kotlin_version = '1.5.31'
     }
     repositories {
         // Check that you have the following line (if not, add it):
         google()  // Google's Maven repository
-
+        mavenCentral()
     }
     dependencies {
         // Add this line
         classpath 'com.google.gms:google-services:4.3.13'
+        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.5"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
     }
 
