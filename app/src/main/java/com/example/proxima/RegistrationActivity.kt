@@ -1,6 +1,6 @@
 package com.example.proxima
 
-import android.content.ContentValues.TAG
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -40,20 +40,23 @@ import androidx.compose.ui.unit.sp
 import com.example.proxima.ui.theme.ProXimaTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class MainActivity : ComponentActivity() {
+class RegistrationActivity : ComponentActivity() {
     companion object{
         val TAG: String=MainActivity::class.java.simpleName
     }
     private val auth by lazy {
         Firebase.auth
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ProXimaTheme {
-                LoginScreen(auth)
+                RegistrationActivity(auth)
             }
         }
     }
@@ -61,16 +64,14 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun LoginScreen(auth: FirebaseAuth){
-
+fun RegistrationActivity(auth: FirebaseAuth){
     val focusManager = LocalFocusManager.current
     val context= LocalContext.current
-    var email by remember{
-        mutableStateOf("")
-    }
-    var password by remember{
-        mutableStateOf("")
-    }
+    lateinit var email:String
+    lateinit var password:String
+    lateinit var confirmPassword:String
+    lateinit var name:String
+    lateinit var instaID:String
 
     val isEmailValid by derivedStateOf {
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -92,27 +93,12 @@ fun LoginScreen(auth: FirebaseAuth){
         verticalArrangement = Arrangement.Top
     ){
         Text(
-            text= "Welcome back....",
+            text= "Registratio",
             fontFamily= FontFamily.Companion.SansSerif,
             fontWeight= FontWeight.Bold,
             fontStyle= FontStyle.Italic,
             fontSize=32.sp,
             modifier=Modifier.padding(top=16.dp)
-        )
-
-        Image(
-            painter= painterResource(id = R.drawable.ic_kfc_4),
-            contentDescription = "KFC Logo",
-            modifier=Modifier.size(150.dp)
-        )
-
-        Text(
-            text= "... to the house of fried chicken",
-            fontFamily= FontFamily.Companion.SansSerif,
-            fontWeight= FontWeight.Bold,
-            fontStyle= FontStyle.Italic,
-            fontSize=20.sp,
-            modifier=Modifier.padding(bottom=20.dp)
         )
 
         Card(
@@ -167,54 +153,66 @@ fun LoginScreen(auth: FirebaseAuth){
                     trailingIcon = {
                         IconButton(onClick ={isPasswordVisible=!isPasswordVisible}){
                             Icon(imageVector=if(isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription="Toggle password visibility")
+                                contentDescription="Toggle password visibility")
                         }
                     },
                     visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
                 )
 
-                Button(onClick = {
-                                 auth.signInWithEmailAndPassword(email,password)
-                                     .addOnCompleteListener {
-                                         if (it.isSuccessful){
-                                             Log.d(TAG,"The user has signed in successfully")
-                                         }
-                                         else{
-                                             Log.d(TAG,"The user has failed signing in",it.exception)
-                                         }
-                                     }
-                },
-                modifier=Modifier.fillMaxWidth(),
-                colors=ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                enabled=isEmailValid && isPasswordVisible) {
-                    Text(
-                        text="Log in",
-                        fontWeight = FontWeight.Bold,
-                        color=Color.Black,
-                        fontSize=16.sp
-                    )
-                }
-
-            }
-
-        }
-        Row(
-            horizontalArrangement=Arrangement.End,
-            modifier=Modifier.fillMaxWidth()
-        ){
-            TextButton(onClick = { /*TODO*/ }) {
-
-                Text(
-                    color=Color.Black,
-                    fontStyle=FontStyle.Italic,
-                    text="Forgotten password?",
-                    modifier = Modifier.padding(end=8.dp)
+                OutlinedTextField(value = confirmPassword,
+                    onValueChange = { confirmPassword=it},
+                    label={Text("Confirm Password")},
+                    singleLine=true,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone={ focusManager.clearFocus()}
+                    ),
+                    isError=(!isPasswordValid&&(password==confirmPassword)),
+                    trailingIcon = {
+                        IconButton(onClick ={isPasswordVisible=!isPasswordVisible}){
+                            Icon(imageVector=if(isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                contentDescription="Toggle password visibility")
+                        }
+                    },
+                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
                 )
+
+                OutlinedTextField(value = name,
+                    onValueChange = { name=it},
+                    label={Text("Full Name")},
+                    singleLine=true,
+                    keyboardActions = KeyboardActions(
+                        onDone={ focusManager.clearFocus()}
+                    )
+                )
+                OutlinedTextField(value = instaID,
+                    onValueChange = { instaID=it},
+                    label={Text("Instagram ID")},
+                    singleLine=true,
+                    keyboardActions = KeyboardActions(
+                        onDone={ focusManager.clearFocus()}
+                    )
+                )
+
+
+
             }
+
         }
         Button(
             onClick = {
-                val intent = Intent(context, RegistrationActivity::class.java)
+                var user=User()
+                user.name=name
+                user.password=password
+                user.email=email
+                user.instaID=instaID
+
+                val intent = Intent(context, RegistrationActivity2::class.java)
+                intent.putExtra("user",user)
                 context.startActivity(intent)
             },
             enabled=true,
@@ -226,7 +224,7 @@ fun LoginScreen(auth: FirebaseAuth){
             Text(
                 color=Color.Black,
                 fontWeight= FontWeight.Bold,
-                text="Register",
+                text="Next",
                 fontSize=16.sp
             )
         }
@@ -235,8 +233,8 @@ fun LoginScreen(auth: FirebaseAuth){
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun DefaultPreview2() {
     ProXimaTheme {
-        LoginScreen(Firebase.auth)
+        RegistrationActivity(Firebase.auth)
     }
 }
