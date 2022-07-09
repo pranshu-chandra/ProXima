@@ -8,6 +8,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import coil.annotation.ExperimentalCoilApi
+import com.example.proxima.Presentation.Screens.MainScreen
 import com.example.proxima.Presentation.Screens.login.LoginScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 
@@ -23,6 +24,10 @@ fun SetupNavGraph(navController: NavHostController){
     ){
         composable(route = Screen.Login.route){
         LoginScreen(navController = navController)
+        }
+
+        composable(route = Screen.MainScreen.route){
+            MainScreen(navController = navController)
         }
 
 

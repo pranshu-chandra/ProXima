@@ -1,0 +1,25 @@
+package com.example.proxima.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.proxima.Presentation.Screens.Home.HomePage
+import com.example.proxima.Presentation.Screens.LikedPosts.LikedPostsPage
+import com.example.proxima.Presentation.Screens.Profile.ProfilePage
+import com.example.proxima.Presentation.Screens.YourPosts.YourPostsPage
+
+@Composable
+fun BottomNavGraph(navController: NavHostController) {
+
+    NavHost(navController = navController, startDestination = BottomBarScreen.Home.route )
+    {
+
+        composable(route = BottomBarScreen.Home.route) { HomePage() }
+        composable(route = BottomBarScreen.Profile.route) { ProfilePage() }
+        composable(route = BottomBarScreen.LikedPosts.route) { LikedPostsPage() }
+        composable(route = BottomBarScreen.YourPosts.route) { YourPostsPage() }
+
+    }
+}
