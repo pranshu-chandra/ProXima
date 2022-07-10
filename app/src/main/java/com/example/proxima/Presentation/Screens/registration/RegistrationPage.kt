@@ -1,4 +1,4 @@
-package com.example.proxima.Presentation.Screens.login
+package com.example.proxima.Presentation.Screens.registration
 
 import android.content.ContentValues
 import android.util.Log
@@ -27,22 +27,28 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.NavHostController
-import com.example.proxima.data.repository.DataStoreRepository
+import com.example.proxima.Presentation.Screens.login.LoginScreen
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-
 @Composable
-fun LoginScreen(navController: NavHostController){
+fun RegistrationPage(navController: NavHostController){
 
 // for Login check
 
+    RegistrationScreen()
+
+
+}
+
+
+@Composable
+fun RegistrationScreen()
+{
 
     val auth by lazy {
         Firebase.auth
@@ -168,7 +174,7 @@ fun LoginScreen(navController: NavHostController){
                     colors= ButtonDefaults.buttonColors(backgroundColor = Color.Red),
                     enabled=isEmailValid && isPasswordVisible) {
                     Text(
-                        text="Log in",
+                        text="Register",
                         fontWeight = FontWeight.Bold,
                         color= Color.Black,
                         fontSize=16.sp
@@ -203,10 +209,18 @@ fun LoginScreen(navController: NavHostController){
             Text(
                 color= Color.Black,
                 fontWeight= FontWeight.Bold,
-                text="Register",
+                text="Log in",
                 fontSize=16.sp
             )
         }
     }
 }
 
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewRegisterScreen() {
+    RegistrationScreen()
+}
