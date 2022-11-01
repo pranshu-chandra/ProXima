@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import com.example.proxima.navigation.SetupNavGraph
 import com.example.proxima.ui.theme.ProXimaTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
 
+    @OptIn(ExperimentalCoilApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
